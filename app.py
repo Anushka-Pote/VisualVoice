@@ -4,6 +4,8 @@ import os
 from PIL import Image
 from transformers import pipeline
 from gtts import gTTS
+import hashlib
+import time  # Import time module for adding a delay
 
 app = Flask(__name__)
 
@@ -32,25 +34,51 @@ def index():
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         photo.save(filepath)
 
-        # Convert the image to RGB and process
-        image = Image.open(filepath).convert('RGB')
+        # Generate a unique hash for the image file
+        image_hash = hash_image(filepath)
 
-        # Generate caption
-        captions = image_to_text(image)
-        caption = captions[0]['generated_text'] 
+        # File paths for caption and audio based on the image hash
+        caption_file = os.path.join(app.config['UPLOAD_FOLDER'], f"{image_hash}_caption.txt")
+        audio_file = os.path.join(app.config['AUDIO_FOLDER'], f"{image_hash}.mp3")
+        
+        # Check if caption and audio files already exist
+        if os.path.exists(caption_file) and os.path.exists(audio_file):
+            # Simulate processing delay
+            time.sleep(3)  # Add a 3-second delay
 
-        # Set image URL for display
-        image_url = url_for('static', filename=f'uploads/{filename}')
+            # Read the caption from file and set the URLs
+            with open(caption_file, 'r') as f:
+                caption = f.read()
+            image_url = url_for('static', filename=f'uploads/{filename}')
+            audio_url = url_for('static', filename=f'audio/{image_hash}.mp3')
+        else:
+            # Convert the image to RGB and resize for optimization
+            image = Image.open(filepath).convert('RGB')
+            image = image.resize((500, 500))
 
-        # Convert caption to audio using gtts
-        if caption:
-            tts = gTTS(text=caption, lang='en')
-            audio_filename = f"{filename.rsplit('.', 1)[0]}.mp3"  # Same name but with .mp3 extension
-            audio_filepath = os.path.join(app.config['AUDIO_FOLDER'], audio_filename)
-            tts.save(audio_filepath)
-            audio_url = url_for('static', filename=f'audio/{audio_filename}')
+            # Generate caption
+            captions = image_to_text(image)
+            caption = captions[0]['generated_text']
+            
+            # Save the caption to a text file for future use
+            with open(caption_file, 'w') as f:
+                f.write(caption)
+            
+            # Set image URL for display
+            image_url = url_for('static', filename=f'uploads/{filename}')
+
+            # Convert caption to audio using gtts and save the audio file
+            if caption:
+                tts = gTTS(text=caption, lang='en')
+                tts.save(audio_file)
+                audio_url = url_for('static', filename=f'audio/{image_hash}.mp3')
 
     return render_template('index.html', caption=caption, image_url=image_url, audio_url=audio_url)
+
+def hash_image(image_path):
+    """Generate a hash for the image content to use as a unique file key."""
+    with open(image_path, 'rb') as f:
+        return hashlib.md5(f.read()).hexdigest()  # MD5 hash of the image file
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -141,12 +141,23 @@
 
             {% if audio_url %}
                 <h3>Audio Description:</h3>
-                <audio controls aria-label="Audio description of the image">
+                <!-- Add an id to the audio element for JavaScript control -->
+                <audio id="audioPlayback" controls aria-label="Audio description of the image">
                     <source src="{{ audio_url }}" type="audio/mpeg">
                     Your browser does not support the audio element.
                 </audio>
             {% endif %}
         {% endif %}
     </div>
+    <script>
+        // Automatically play the audio when it's loaded
+        const audioElement = document.getElementById("audioPlayback");
+        if (audioElement) {
+            // Event listener to ensure audio plays when fully ready
+            audioElement.addEventListener("canplaythrough", () => {
+                audioElement.play();
+            });
+        }
+    </script>
 </body>
 </html>
