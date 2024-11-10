@@ -1,17 +1,16 @@
-# Image Caption Generator with TTS
+# VisualVoice for Helping Visually Impaired Users
 
-This project is a web application that allows users to upload images and generate captions using a pre-trained model. The generated captions can also be converted to speech using Google Text-to-Speech (gTTS), which can be played or downloaded directly from the webpage.
+VisualVoice is a web application designed to help visually impaired users by allowing them to upload images and generate captions using a pre-trained model. The generated captions are then converted into speech using Google Text-to-Speech (gTTS), allowing users to hear the description of the image.
 
 ## Features
-- Upload an image file and generate a caption using the `Salesforce/blip-image-captioning-base` model.
-- Converts the generated caption into audio using Google Text-to-Speech (gTTS).
-- Displays the uploaded image along with the generated caption and an audio player to listen to the caption.
-
+- **Image Caption Generation**: Upload an image file, and the application generates a caption describing the content of the image using the `Salesforce/blip-image-captioning-base` model.
+- **Text-to-Speech Conversion**: Converts the generated caption into audio using Google Text-to-Speech (gTTS), which can be played directly on the webpage.
+- **User-Friendly Web Interface**: The application is designed to be accessible, with a simple, easy-to-navigate interface that displays the uploaded image and generated caption, alongside an audio player to listen to the caption.
 
 ## Project Structure
 
 ```
-project/
+VisualVoice/
 │
 ├── app.py                     # Main Flask app
 ├── static/                     # Static files (uploads and audio)
@@ -25,11 +24,13 @@ project/
 
 ## Installation and Setup
 
+Follow these steps to set up and run the **VisualVoice** application locally:
+
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/payal83/image-caption-generator.git
-   cd image-caption-generator
+   git clone https://github.com/Anushka-Pote/VisualVoice.git
+   cd VisualVoice
    ```
 
 2. **Create a virtual environment:**
@@ -53,7 +54,7 @@ project/
 
 5. **Open your browser and navigate to:**
 
-   ```
+   ```plaintext
    http://127.0.0.1:5000/
    ```
 
@@ -63,8 +64,8 @@ This project relies on the following libraries:
 
 - **Flask**: Web framework used to create the application.
 - **Pillow**: For image processing.
-- **transformers**: Hugging Face transformers library for loading the image captioning model.
-- **gTTS**: Google Text-to-Speech library for converting text into audio.
+- **transformers**: Hugging Face library for loading the image captioning model.
+- **gTTS**: Google Text-to-Speech library for converting text into speech.
 - **Werkzeug**: Used for securing file uploads.
 
 To install the dependencies, use:
@@ -77,15 +78,13 @@ pip install -r requirements.txt
 
 1. **Upload an Image**: 
    Upload any image file (e.g., `.jpg`, `.png`) through the web interface.
-   
+
 2. **Generate Caption**: 
-   Once uploaded, the model will generate a caption based on the content of the image.
+   Once the image is uploaded, the model will generate a caption describing the content of the image.
 
 3. **Play Caption as Audio**: 
-   The caption will also be converted to speech using Google Text-to-Speech (gTTS). An audio player will appear, allowing you to listen to the caption.
-
+   The generated caption will be converted to speech using Google Text-to-Speech (gTTS). An audio player will appear, allowing you to listen to the caption.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
