@@ -1,6 +1,6 @@
 # VisualVoice for Helping Visually Impaired Users
 
-VisualVoice is a web application designed to help visually impaired users by allowing them to upload images and generate captions using a pre-trained model. The generated captions are then converted into speech using Google Text-to-Speech (gTTS), allowing users to hear the description of the image.
+VisualVoice is an android application designed to help visually impaired users by allowing them to upload images and generate captions using a trained model. The generated captions are then converted into speech using Google Text-to-Speech (gTTS), allowing users to hear the description of the image.
 
 ## Features
 - **Image Caption Generation**: Upload an image file, and the application generates a caption describing the content of the image using the `Salesforce/blip-image-captioning-base` model.
